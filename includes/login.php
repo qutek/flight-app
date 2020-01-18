@@ -8,7 +8,12 @@ Flight::route('POST /login', function(){
     $password = $_POST['password'];
 
     // cek di database dan login / redirect kalo ga terdaftar
-    $exist = $username == 'user';
+    $db=Flight::db();
+    $db->where ('username', $username);
+    $db->where ('password', md5($password));
+    $users = $db->get('users');
+
+    $exist = $username = $users;
     if ( $exist ) {
     	// logged in
     	$_SESSION['user'] = 'user';
